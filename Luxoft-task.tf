@@ -57,7 +57,7 @@ resource "aws_instance" "terraform-task-instance" {
 }
 
 provisioner "file" {
-    source      = "./grafana/Dockerfile"
+    source      = "./dockerfiles/grafana/Dockerfile"
     destination = "/home/ubuntu/dockerfiles/grafana/Dockerfile"
   }
 
@@ -70,7 +70,7 @@ provisioner "file" {
 
   provisioner "file" {
 
-  source = "./prometheus/Dockerfile"
+  source = "./dockerfiles/prometheus/Dockerfile"
   destination = "/home/ubuntu/dockefriles/prometheus/Dockerfile"
   }
 
