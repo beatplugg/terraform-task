@@ -4,10 +4,6 @@ networks:
   monitoring:
     driver: bridge
 
-volumes:
-  prometheus_data: {}
-  grafana-data: {}
-
 services:
   node-exporter:
     image: prom/node-exporter:latest
@@ -54,4 +50,6 @@ services:
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
       - grafana-data:/var/lib/grafana
       
-  
+  volumes:
+    prometheus_data: {}
+    grafana-data: {}

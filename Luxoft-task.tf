@@ -65,8 +65,8 @@ resource "aws_instance" "terraform-task-instance" {
 	sudo apt-get update
 	sudo apt-get upgrade
 	sudo apt-get install ca-certificates curl gnupg 
-	mkdir -p /home/ubuntu/docker-compose/
-	curl -o /home/ubuntu/docker-compose 
+	mkdir -p /home/ubuntu/docker-compose/ 
+	curl -o /home/ubuntu/docker-compose/docker-compose.yml https://raw.githubusercontent.com/beatplugg/terraform-task/master/docker-compose.yml && curl -o /home/ubuntu/docker-compose/prometheus.yml https://github.com/beatplugg/terraform-task/raw/master/prometheus.yml
 	sudo install -m 0755 -d /etc/apt/keyrings
 	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 	sudo chmod a+r /etc/apt/keyrings/docker.gpg
