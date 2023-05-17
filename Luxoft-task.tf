@@ -11,7 +11,7 @@ resource "aws_key_pair" "terraform-task-key" {
 
 resource "aws_security_group" "terraform-task-sg" {
 	name = "terraform-task-sg"
-	description = "Opening ingress ports for ssh, https, http, grafana, prometheus"
+	description = "Opening ingress ports for ssh, https, http, grafana, prometheus, node exporter"
 
 	ingress {
 	from_port = 22
@@ -47,6 +47,13 @@ resource "aws_security_group" "terraform-task-sg" {
 	protocol = "tcp"
 	cidr_blocks = ["0.0.0.0/0"]
 	}
+
+	ingress {
+	from_port = 9100
+	to_port = 9100
+	protocol "tcp"
+	cidr_blocks = ["0.0.0.0/0"]
+	}
 }
 
 resource "aws_instance" "terraform-task-instance" {
@@ -54,53 +61,33 @@ resource "aws_instance" "terraform-task-instance" {
 	instance_type = "t2.micro"
 	key_name = aws_key_pair.terraform-task-key.key_name
 	vpc_security_group_ids = [aws_security_group.terraform-task-sg.id]
+	user_data = <<EOF
+	sudo apt-get update
+	sudo apt-get upgrade
+	sudo apt-get install ca-certificates curl gnupg 
+	mkdir -p /home/ubuntu/docker-compose/
+	curl -o /home/ubuntu/docker-compose 
+	sudo install -m 0755 -d /etc/apt/keyrings
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+	sudo chmod a+r /etc/apt/keyrings/docker.gpg
+	echo \
+  	"deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  	"$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  	sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  	sudo apt-get update
+  	sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  	sudo usermod -aG docker $USER
+	sudo systemctl enable docker
+	sudo systemctl start docker
+	docker build -t grafana /home/ubuntu/dockerfiles/grafana
+	docker run -d grafana
+	docker build -t prometheus /home/ubuntu/dockerfiles/prometheus
+	docker run -d prometheus
+	EOF
 }
 
 resource "aws_eip" "terraform-task-eip" {
 	instance = aws_instance.terraform-task-instance.id	
-}
-
-resource "null_resource" "terraform-task-null" {
-	depends_on = [aws_eip.terraform-task-eip]
-
-provisioner "remote-exec" {
-  	inline = [
-   	"sudo apt-get update",
-   	"sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common",
-   	"curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg",
-   	"echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu focal stable' | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null",
-   	"sudo apt-get update",    
-   	"sudo apt-get install -y docker-ce docker-ce-cli containerd.io",
-   	"sudo usermod -aG docker ${USER}",
-   	"sudo systemctl enable docker",
-   	"sudo systemctl start docker",
-    ]
-}
-
-provisioner "file" {
-	source      = "./dockerfiles/grafana/Dockerfile"
-    destination = "/home/ubuntu/dockerfiles/grafana/Dockerfile"
-}
-
-provisioner "file" {
-	source = "./dockerfiles/prometheus/Dockerfile"
-  	destination = "/home/ubuntu/dockefriles/prometheus/Dockerfile"
-}
-
-provisioner "remote-exec" {
-	inline = [
-  	"docker build -t grafana /home/ubuntu/dockerfiles/grafana",
-  	"docker run -d grafana",
-  	]
-}
-
-provisioner "remote-exec" {
-	inline = [
-	"docker build -t prometheus /home/ubuntu/dockerfiles/prometheus",
-  	"docker run -d prometheus",
-	]
-}
-
 }
 
 output "instance_ip" {
