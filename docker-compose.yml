@@ -6,6 +6,7 @@ networks:
 
 volumes:
   prometheus_data: {}
+  grafana-data: {}
 
 services:
   node-exporter:
@@ -43,3 +44,14 @@ services:
       - 9090
     networks:
       - monitoring
+
+  grafana:
+    image: grafana/grafana:7.5.7
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    volumes:
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - grafana-data:/var/lib/grafana
+      
+  
