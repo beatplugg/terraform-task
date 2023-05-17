@@ -1,4 +1,4 @@
-provider = "aws" {
+provider "aws" {
 	access_key = "xxx"
 	secret_key = "xxx"
 	region = "eu-central-1"
@@ -62,7 +62,6 @@ resource "aws_eip" "terraform-task-eip" {
 
 resource "null_resource" "terraform-task-null" {
 	depends_on = [aws_eip.terraform-task-eip]
-}
 
 provisioner "remote-exec" {
   	inline = [
@@ -100,6 +99,8 @@ provisioner "remote-exec" {
 	"docker build -t prometheus /home/ubuntu/dockerfiles/prometheus"
   	"docker run -d prometheus"
 	]
+}
+
 }
 
 output "instance_ip" {
