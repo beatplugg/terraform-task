@@ -49,6 +49,8 @@ services:
     volumes:
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
       - grafana-data:/var/lib/grafana
+    networks:
+      - monitoring
       
   volumes:
     prometheus_data: {}
