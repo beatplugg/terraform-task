@@ -56,6 +56,30 @@ resource "aws_instance" "terraform-task-instance" {
 	vpc_security_group_ids = [aws_security_group.terraform-task-sg.id]
 }
 
+resource "aws_eip" "terraform-task-eip" {
+	instance = aws_instance.terraform-task-instance.id	
+}
+
+resource "null_resource" "example" {
+  depends_on = [aws_eip.example]
+
+ provisioner "remote-exec" {
+    inline = [
+
+    "sudo apt-get update",
+    "sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common",
+    "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg",
+    "echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu focal stable' | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null",
+    "sudo apt-get update",
+    "sudo apt-get install -y docker-ce docker-ce-cli containerd.io",
+    "sudo usermod -aG docker ${USER}"
+	"sudo systemctl enable docker",
+    "sudo systemctl start docker",
+
+    ]
+  }
+}
+
 provisioner "file" {
     source      = "./dockerfiles/grafana/Dockerfile"
     destination = "/home/ubuntu/dockerfiles/grafana/Dockerfile"
@@ -81,7 +105,6 @@ provisioner "file" {
   	]
   }
 
-
-resource "aws_eip" "terraform-task-eip" {
-	instance = aws_instance.terraform-task-instance.id	
+  output "instance_ip" {
+  value = aws_eip.example.public_ip
 }
