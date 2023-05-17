@@ -1,7 +1,7 @@
 provider "aws" {
 	access_key = "xxx"
 	secret_key = "xxx"
-	region = eu-central-1
+	region = "eu-central-1"
 }
 
 resource "aws_instance" "terraform-task" {
