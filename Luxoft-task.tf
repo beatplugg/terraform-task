@@ -90,13 +90,13 @@ provisioner "file" {
 
 provisioner "remote-exec" {
 	inline [
-  	"docker build -t prometheus /home/ubuntu/dockerfiles/prometheus"
-  	"docker run -d prometheus"
+  	"docker build -t grafana /home/ubuntu/dockerfiles/grafana"
+  	"docker run -d grafana"
   	]
 }
 
 provisioner "remote-exec" {
-	inlune [
+	inline [
 	"docker build -t prometheus /home/ubuntu/dockerfiles/prometheus"
   	"docker run -d prometheus"
 	]
