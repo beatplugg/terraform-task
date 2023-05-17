@@ -64,7 +64,7 @@ resource "aws_instance" "terraform-task-instance" {
 	user_data = <<EOF
 	sudo apt-get update
 	sudo apt-get upgrade
-	sudo apt-get install ca-certificates curl gnupg 
+	sudo apt-get install -y ca-certificates curl gnupg 
 	mkdir -p /home/ubuntu/docker-compose/ 
 	curl -o /home/ubuntu/docker-compose/docker-compose.yml https://raw.githubusercontent.com/beatplugg/terraform-task/master/docker-compose.yml && curl -o /home/ubuntu/docker-compose/prometheus.yml https://github.com/beatplugg/terraform-task/raw/master/prometheus.yml
 	sudo install -m 0755 -d /etc/apt/keyrings
@@ -75,7 +75,7 @@ resource "aws_instance" "terraform-task-instance" {
   	"$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
   	sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   	sudo apt-get update
-  	sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  	sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
   	sudo usermod -aG docker $USER
 	sudo systemctl enable docker
 	sudo systemctl start docker
