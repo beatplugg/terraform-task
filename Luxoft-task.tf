@@ -84,7 +84,7 @@ resource "aws_instance" "terraform-task-instance" {
   	tee /etc/apt/sources.list.d/docker.list > /dev/null
   	apt-get update
   	apt-get install -y docker-compose docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-  	usermod -aG docker $USER
+  	usermod -aG docker ubuntu
 	systemctl enable docker
 	systemctl start docker
 	cd /home/ubuntu/docker-compose/
