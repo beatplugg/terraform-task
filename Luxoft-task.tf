@@ -79,10 +79,8 @@ resource "aws_instance" "terraform-task-instance" {
   	sudo usermod -aG docker $USER
 	sudo systemctl enable docker
 	sudo systemctl start docker
-	docker build -t grafana /home/ubuntu/dockerfiles/grafana
-	docker run -d grafana
-	docker build -t prometheus /home/ubuntu/dockerfiles/prometheus
-	docker run -d prometheus
+	cd /home/ubuntu/docker-compose/
+	docker-compose up -d
 	EOF
 }
 
