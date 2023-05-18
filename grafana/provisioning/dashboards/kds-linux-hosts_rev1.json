@@ -1,7 +1,7 @@
 {
   "__inputs": [
     {
-      "name": "Prometheus",
+      "name": "DS_PROMETHEUS",
       "label": "Prometheus",
       "description": "",
       "type": "datasource",
@@ -84,7 +84,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${Prometheus}",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 0,
       "description": "Time since last boot",
       "format": "s",
@@ -171,7 +171,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${Prometheus}",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Number of processors",
       "format": "none",
       "gauge": {
@@ -255,7 +255,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${Prometheus}",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 0,
       "description": "Amount of memory",
       "format": "decbytes",
@@ -341,7 +341,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${Prometheus}",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 1,
       "format": "percentunit",
       "gauge": {
@@ -426,7 +426,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${Prometheus}",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 1,
       "format": "percentunit",
       "gauge": {
@@ -510,7 +510,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${Prometheus}",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 1,
       "description": "Free diskspace",
       "format": "percentunit",
@@ -596,7 +596,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${Prometheus}",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": null,
       "description": "Network traffic in the last hour",
       "format": "decbytes",
@@ -681,7 +681,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${Prometheus}",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": null,
       "description": "Network traffic in the last hour",
       "format": "decbytes",
@@ -759,7 +759,7 @@
     },
     {
       "columns": [],
-      "datasource": "${Prometheus}",
+      "datasource": "${DS_PROMETHEUS}",
       "fontSize": "100%",
       "gridPos": {
         "h": 4,
@@ -875,7 +875,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${Prometheus}",
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "gridPos": {
         "h": 6,
@@ -978,7 +978,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${Prometheus}",
+          "datasource": "${DS_PROMETHEUS}",
           "fill": 1,
           "gridPos": {
             "h": 6,
@@ -1106,7 +1106,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${Prometheus}",
+          "datasource": "${DS_PROMETHEUS}",
           "fill": 2,
           "gridPos": {
             "h": 6,
@@ -1215,7 +1215,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${Prometheus}",
+          "datasource": "${DS_PROMETHEUS}",
           "fill": 2,
           "gridPos": {
             "h": 6,
@@ -1344,7 +1344,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${Prometheus}",
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1434,7 +1434,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${Prometheus}",
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1535,7 +1535,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${Prometheus}",
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1641,7 +1641,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${Prometheus}",
+        "datasource": "${DS_PROMETHEUS}",
         "definition": "label_values(node_time_seconds{job=\"$job\"},instance)",
         "hide": 0,
         "includeAll": false,
@@ -1663,7 +1663,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${Prometheus}",
+        "datasource": "${DS_PROMETHEUS}",
         "definition": "label_values(node_boot_time_seconds,job)",
         "hide": 0,
         "includeAll": false,

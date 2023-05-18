@@ -4,23 +4,8 @@ providers:
     orgId: 1
     folder: ''
     type: file
-    updateIntervalSeconds: 10
     disableDeletion: false
+    updateIntervalSeconds: 10
     editable: true
     options:
       path: /etc/grafana/provisioning/dashboards
-
-dashboards:
-  - name: 'Linux Hosts Metrics | Base'
-    orgId: 1
-    folder: ''
-    type: file
-    disableDeletion: false
-    editable: true
-    options:
-      path: /etc/grafana/provisioning/dashboards/kds-linux-hosts_rev1.json
-    dataSources:
-      - name: Prometheus
-        type: prometheus
-        access: proxy
-        url: http://prometheus:9090
