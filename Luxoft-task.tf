@@ -1,12 +1,12 @@
 provider "aws" {
 	access_key = "xxx"
 	secret_key = "xxx"
-	region = "eu-central-1"
+	region = var.aws_region
 }
 
 resource "aws_key_pair" "terraform-task-key" {
 	key_name = "terraform-key"
-	public_key = file("./terraform.pub")
+	public_key = file(var.path_to_ssh_key)
 }
 
 resource "aws_security_group" "terraform-task-sg" {
@@ -57,7 +57,7 @@ resource "aws_security_group" "terraform-task-sg" {
 }
 
 resource "aws_instance" "terraform-task-instance" {
-	ami = "ami-0ec7f9846da6b0f61"
+	ami = var.ami_for_instance
 	instance_type = "t2.micro"
 	key_name = aws_key_pair.terraform-task-key.key_name
 	vpc_security_group_ids = [aws_security_group.terraform-task-sg.id]
