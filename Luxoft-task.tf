@@ -68,23 +68,22 @@ resource "aws_instance" "terraform-task-instance" {
 	instance_type = "t2.micro"
 	key_name = aws_key_pair.terraform-task-key.key_name
 	vpc_security_group_ids = [aws_security_group.terraform-task-sg.id]
-	user_data = <<EOF
+	user_data = <<-EOF
 	#!/bin/bash
-	sudo apt-get update
-	sudo apt-get upgrade -y
-	sudo apt-get install -y curl
-	sudo mkdir -p /home/ubuntu/docker-compose/ 
-	sudo git clone --depth 1 https://github.com/beatplugg/terraform-task.git /home/ubuntu/docker-compose 
-	sudo apt-get install -y ca-certificates gnupg 
-	sudo install -m 0755 -d /etc/apt/keyrings
-	sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-	sudo chmod a+r /etc/apt/keyrings/docker.gpg
-	echo \
+	apt update
+	apt install -y curl
+	git clone --depth 1 https://github.com/beatplugg/terraform-task.git /home/ubuntu/docker-compose
+	apt-get update
+ 	apt-get install ca-certificates gnupg 
+ 	install -m 0755 -d /etc/apt/keyrings
+ 	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+ 	chmod a+r /etc/apt/keyrings/docker.gpg
+ 	echo \
   	"deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   	"$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
-  	sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-  	sudo apt-get update
-  	sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  	tee /etc/apt/sources.list.d/docker.list > /dev/null
+  	apt-get update
+  	apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
   	sudo usermod -aG docker $USER
 	sudo systemctl enable docker
 	sudo systemctl start docker
