@@ -83,7 +83,7 @@ resource "aws_instance" "terraform-task-instance" {
   	"$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
   	tee /etc/apt/sources.list.d/docker.list > /dev/null
   	apt-get update
-  	apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  	apt-get install -y docker-compose docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
   	usermod -aG docker $USER
 	systemctl enable docker
 	systemctl start docker
