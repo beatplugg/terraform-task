@@ -2,3 +2,4 @@
 .terraform.lock.hcl
 terraform
 terraform.pub
+terraform.*

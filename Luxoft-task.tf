@@ -51,7 +51,14 @@ resource "aws_security_group" "terraform-task-sg" {
 	ingress {
 	from_port = 9100
 	to_port = 9100
-	protocol "tcp"
+	protocol = "tcp"
+	cidr_blocks = ["0.0.0.0/0"]
+	}
+
+	egress {
+	from_port = 0
+	to_port = 0
+	protocol = "-1"
 	cidr_blocks = ["0.0.0.0/0"]
 	}
 }
@@ -62,13 +69,15 @@ resource "aws_instance" "terraform-task-instance" {
 	key_name = aws_key_pair.terraform-task-key.key_name
 	vpc_security_group_ids = [aws_security_group.terraform-task-sg.id]
 	user_data = <<EOF
+	#!/bin/bash
 	sudo apt-get update
-	sudo apt-get upgrade
-	sudo apt-get install -y ca-certificates curl gnupg 
-	mkdir -p /home/ubuntu/docker-compose/ 
-	curl -o /home/ubuntu/docker-compose/docker-compose.yml https://github.com/beatplugg/terraform-task/raw/master/docker-compose.yml && curl -o /home/ubuntu/docker-compose/prometheus.yml https://github.com/beatplugg/terraform-task/raw/master/prometheus.yml
+	sudo apt-get upgrade -y
+	sudo apt-get install -y curl
+	sudo mkdir -p /home/ubuntu/docker-compose/ 
+	sudo git clone --depth 1 https://github.com/beatplugg/terraform-task.git /home/ubuntu/docker-compose 
+	sudo apt-get install -y ca-certificates gnupg 
 	sudo install -m 0755 -d /etc/apt/keyrings
-	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+	sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 	sudo chmod a+r /etc/apt/keyrings/docker.gpg
 	echo \
   	"deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
