@@ -19,8 +19,3 @@ dashboards:
     editable: true
     options:
       path: /etc/grafana/provisioning/dashboards/kds-linux-hosts_rev1.json
-    dataSources:
-      - name: Prometheus
-        type: prometheus
-        access: proxy
-        url: http://prometheus:9090
