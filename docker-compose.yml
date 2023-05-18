@@ -1,9 +1,5 @@
 version: '3.8'
 
-networks:
-  monitoring:
-    driver: bridge
-
 services:
   node-exporter:
     image: prom/node-exporter:latest
@@ -51,7 +47,11 @@ services:
       - grafana-data:/var/lib/grafana
     networks:
       - monitoring
-      
-  volumes:
-    prometheus_data: {}
-    grafana-data: {}
+
+volumes:
+  prometheus_data: {}
+  grafana-data: {}
+
+networks:
+  monitoring:
+    driver: bridge
