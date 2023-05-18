@@ -4,10 +4,11 @@ providers:
     orgId: 1
     folder: ''
     type: file
+    updateIntervalSeconds: 10
     disableDeletion: false
     editable: true
     options:
-      path: /grafana/provisioning/dashboards
+      path: /etc/grafana/provisioning/dashboards
 
 dashboards:
   - name: 'Linux Hosts Metrics | Base'
