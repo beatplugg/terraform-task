@@ -14,6 +14,7 @@ This repo is being used to set up an AWS EC2 Ubuntu instance with installation o
 ## Technologies used
 
 - Terraform
+- AWS
 - Docker, Docker Compose
 - Grafana
 - Prometheus
